@@ -16,6 +16,9 @@ class LList:
             print("List is empty")
             return
         current=self.starting
+        if(current.next==current):
+            print("%d"%(current.data))
+            return
         while(current.next!=self.starting):
             print("%d"%(current.data))
             current=current.next
@@ -25,10 +28,28 @@ class LList:
         if(self.starting==None):
             print("List is empty")
             return
-
         current=self.starting
-        while(current.next!=self.starting):
+        if(current.next==current):
+            current.next=None
+            current.prev=None
+            self.starting=None
+            print("%s deleted"%(current.data))
+            return
+
+        while(self.starting.next!=self.starting):
             if(current.data==node.data):
+                if(current==self.starting):
+                    temp=current
+                    if(current.prev.data>current.next.data):
+                        self.starting = current.next
+                    else:
+                        self.starting = current.prev
+                    temp.prev.next = temp.next
+                    temp.next.prev = temp.prev
+                    print("%s deleted"%(temp.data))
+                    current.next = None
+                    current.prev = None
+                    return
                 temp=current
                 temp.prev.next = temp.next
                 temp.next.prev = temp.prev
@@ -37,32 +58,39 @@ class LList:
                 current.prev = None
                 return
             current = current.next
-        if(current.next==self.starting):
-            self.starting=None
-            print("%s deleted"%(current.data))
-            return
+
 
     def insert(self, node):
         current=self.starting
-        if(current==None):
+        if(self.starting==None):
             self.starting = node
+            node.next = node
+            node.prev = node
             print("%s inserted"%(node.data))
             return
+        if(self.starting.next == self.starting):
+            node.next = current
+            node.prev = current
+            current.next = node
+            current.prev = node
+            print("%s inserted"%(node.data))
+            if(node.data<self.starting.data):
+                self.starting=node
+            return
         while(1):
-            if(current.next==None):
-                node.next=None
-                current.next=node
-                print("%s inserted"%(node.data))
-                return
             if(current.data==node.data):
                 node.next = current.next
+                node.prev = current
                 current.next = node
+                node.next.prev = node
                 print("%s inserted"%(node.data))
                 return
             elif(current.data<node.data):
-                if(current.next.data>node.data):
+                if((current.next.data>node.data)or(current.next==self.starting)):
                     node.next=current.next
+                    node.prev=current
                     current.next=node
+                    node.next.prev = node
                     print("%s inserted"%(node.data))
                     return
             current = current.next
@@ -86,11 +114,42 @@ n1.prev = n5
 
 liststarting=LList(n1)
 liststarting.print()
+liststarting.delete(n1)
+liststarting.print()
 liststarting.delete(n4)
 #liststarting.insert(n3)
 liststarting.print()
 liststarting.delete(n5)
 liststarting.print()
+liststarting.delete(n2)
+liststarting.print()
+print("test1")
+liststarting.delete(n2)
+print("test2")
+liststarting.print()
+
+
+print('test')
+liststarting.insert(n2)
+print(liststarting.starting.next.data)
+print(liststarting.starting.prev.data)
+liststarting.print()
+print("test2")
+liststarting.insert(n1)
+print("test3")
+print(liststarting.starting.next.data)
+print(liststarting.starting.prev.data)
+print("test4")
+liststarting.print()
+print('test5')
+
+
+liststarting.insert(n4)
+liststarting.print()
+liststarting.insert(n3)
+liststarting.print()
+
+
 #liststarting.insert(n5)
 #liststarting.print()
 

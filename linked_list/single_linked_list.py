@@ -25,6 +25,11 @@ class LList:
             return
 
         current=self.head
+        if(current.data==node.data):
+            self.head = current.next
+            current.next = None
+            print("%s deleted"%(current.data))
+            return
         while(current.next!=None):
             if(current.next.data==(node.data)):
                 temp=current.next
@@ -70,20 +75,25 @@ n2 = Node(200)
 n3 = Node(300)
 n4 = Node(400)
 n5 = Node(500)
-'''
-n1.next=n2
-n2.next=n4
-n4.next=n5
+
 
 listHead=LList(n1)
 listHead.print()
-listHead.delete(n4)
+listHead.insert(n2)
+listHead.insert(n4)
+listHead.insert(n5)
+listHead.print()
+listHead.delete(n1)
+
+listHead.print()
 listHead.insert(n3)
 listHead.print()
 listHead.delete(n5)
 listHead.print()
 listHead.insert(n5)
 listHead.print()
+
+
 '''
 listHead = LList(n1)
 listHead.print()
@@ -91,3 +101,4 @@ listHead.delete(n1)
 listHead.print()
 listHead.insert(n1)
 listHead.print()
+'''
