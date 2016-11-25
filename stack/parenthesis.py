@@ -1,3 +1,5 @@
+import os
+
 class Node:
     next=None
     data=None
@@ -69,24 +71,64 @@ class LStack:
             return
 
     def pop(self):
-        current = self.head
-        current.next = self.head
-        print("%s popped"%(current.data))
-        return current.data
+        if(self.isEmpty()==True):
+            print("Stack is Empty")
+        elif(self.isEmpty()==False):
+            current = self.head
+            self.head = current.next
+            print("%s popped"%(current.data))
+            return current.data
 
     def peek(self):
-        print("%s peeked"%(self.head.data))
-        return self.head.data
+        if(self.isEmpty()==True):
+            print("Stack is Empty")
+        elif(self.isEmpty()==False):
+            print("%s peeked"%(self.head.data))
+            return self.head.data
 
 inputStr = input("Enter the formula : ")
 
 stackTop = LStack()
 
 
-for i in range(len(inputStr)):
-    stackTop.push(Node(inputStr[i]))
+for i in inputStr:
+    if(i=='(' or i=='{' or i=='['):
+        tempNode = Node(i)
+        stackTop.push(tempNode)
+        # stackTop.print()
+    elif(i==')'):
+        if(stackTop.peek()=='('):
+            stackTop.pop()
+        elif(stackTop.peek()=='{' or stackTop.peek()=='[' or stackTop.isEmpty()==True):
+            print("Invalid formula")
+            os._exit(1)
+            break
+    elif(i=='}'):
+        if(stackTop.peek()=='{'):
+            stackTop.pop()
+        elif(stackTop.peek()=='(' or stackTop.peek()=='[' or stackTop.isEmpty()==True):
+            print("Invalid formula")
+            os._exit(1)
+            break
+    elif(i==']'):
+        if(stackTop.peek()=='['):
+            stackTop.pop()
+        elif(stackTop.peek()=='{' or stackTop.peek()=='(' or stackTop.isEmpty()==True):
+            print("Invalid formula")
+            os._exit(1)
+            break
 
-stackTop.print()
+# stackTop.print()
+
+if(stackTop.isEmpty()==True):
+    print("Valid formula")
+else:
+    # print("test")
+    # stackTop.print()
+    print("Invalid formula")
+
+
+# stackTop.print()
 # while(stackTop.isEmpty()==False):
 #     if(stackTop.pop()=='('):
 #         pass
